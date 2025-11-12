@@ -3,13 +3,22 @@ backend:
   branch: main
 media_folder: "public/uploads"
 public_folder: "/uploads"
+locale: zh_Hans
 collections:
   - name: "posts"
-    label: "Blog Posts"
-    folder: "content/posts"
+    label: "文章"
+    label_singular: "文章"
+    folder: "src/content/posts"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{slug}}"
+    preview_path: "posts/{{slug}}/"
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - { name: "title", label: "Title" }
-      - { name: "date", label: "Date", widget: "datetime" }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "title", label: "标题", widget: "string" }
+      - { name: "description", label: "简介", widget: "text" }
+      - { name: "publishedAt", label: "发布时间", widget: "datetime" }
+      - { name: "updatedAt", label: "更新日期", widget: "datetime", required: false }
+      - { name: "tags", label: "标签", widget: "list", default: [] }
+      - { name: "draft", label: "草稿", widget: "boolean", default: false, required: false }
+      - { name: "body", label: "正文", widget: "markdown" }

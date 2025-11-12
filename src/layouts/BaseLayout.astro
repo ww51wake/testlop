@@ -1,0 +1,30 @@
+---
+import '~/styles/global.css';
+
+const { title = 'Untitled Page', description = 'A personal space built with Astro and Decap CMS' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-title">星尘记事</a>
+      <nav class="site-nav">
+        <a href="/">文章</a>
+        <a href="/about">关于我</a>
+        <a href="/admin/">写作后台</a>
+      </nav>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} 星尘记事 · 基于 Astro 与 Decap CMS 构建</p>
+    </footer>
+  </body>
+</html>

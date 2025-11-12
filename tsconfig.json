@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "moduleResolution": "bundler",
+    "types": ["astro/client"],
+    "strict": true
+  }
+}

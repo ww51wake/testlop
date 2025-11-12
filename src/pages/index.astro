@@ -1,0 +1,18 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PostCard from '~/components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).filter((post) => !post.data.draft).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+---
+<BaseLayout title="星尘记事" description="使用 Astro 与 Decap CMS 打造的创作空间">
+  <section class="post-list" aria-label="最新文章">
+    {posts.length === 0 ? (
+      <p>暂时还没有文章，登录后台开始写作吧！</p>
+    ) : (
+      posts.map((post) => <PostCard post={post} />)
+    )}
+  </section>
+</BaseLayout>

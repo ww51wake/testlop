@@ -1,0 +1,45 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getCollection, getEntryBySlug } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'posts'> };
+const entry = await getEntryBySlug('posts', post.slug);
+
+if (!entry) {
+  throw new Error(`未找到 slug 为 ${post.slug} 的文章`);
+}
+
+const { data, body } = entry;
+---
+<BaseLayout title={data.title} description={data.description}>
+  <article class="post-card">
+    <header>
+      <time datetime={data.publishedAt.toISOString()}>
+        {data.publishedAt.toLocaleDateString('zh-Hans-CN')}
+      </time>
+      <h1>{data.title}</h1>
+      {data.updatedAt && (
+        <p class="post-updated">最近更新：{data.updatedAt.toLocaleDateString('zh-Hans-CN')}</p>
+      )}
+      {data.tags.length > 0 && (
+        <div class="post-tags">
+          {data.tags.map((tag) => (
+            <span class="post-tag" data-tag={tag}>{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+    <div class="post-content">
+      <Fragment set:html={body} />
+    </div>
+  </article>
+</BaseLayout>

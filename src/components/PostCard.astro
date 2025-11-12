@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+const { post } = Astro.props as { post: CollectionEntry<'posts'> };
+const { data, slug } = post;
+---
+<article class="post-card">
+  <time datetime={data.publishedAt.toISOString()}>
+    {data.publishedAt.toLocaleDateString('zh-Hans-CN')}
+  </time>
+  <h2>{data.title}</h2>
+  <p>{data.description}</p>
+  {data.tags.length > 0 && (
+    <div class="post-tags">
+      {data.tags.map((tag) => (
+        <span class="post-tag" data-tag={tag}>{tag}</span>
+      ))}
+    </div>
+  )}
+  <a class="post-link" href={`/posts/${slug}/`}>
+    阅读全文
+  </a>
+</article>
